@@ -1,3 +1,0 @@
-apply from: "$rootDir/gradle/tests/test-configuration-generator.gradle"
-
-generateTestConfiguration("moduleIntegrationTest", "module-integration-test")
