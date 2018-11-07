@@ -1,0 +1,16 @@
+// Adapted from https://docs.gradle.org/current/userguide/signing_plugin.html
+gradle.taskGraph.whenReady { taskGraph ->
+    if (!rootProject.ext.has("gpgConfigured") && taskGraph.allTasks.any { it instanceof Sign }) {
+        java.io.Console console = System.console()
+
+        def id = console.readLine("PGP key id: ")
+        def file = console.readLine("PGP key file (absolute path): ")
+        def password = console.readLine("PGP passphrase: ")
+
+        allprojects { rootProject.ext."signing.keyId" = id }
+        allprojects { rootProject.ext."signing.secretKeyRingFile" = file }
+        allprojects { rootProject.ext."signing.password" = password }
+
+        rootProject.ext.gpgConfigured = true
+    }
+}
