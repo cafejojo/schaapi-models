@@ -34,7 +34,7 @@ $ ./gradlew dokka
 
 ## Publishing
 ``` bash
-$ ./gradlew publish --no-daemon
+$ ./gradlew uploadArchives --no-daemon
 ```
 
 ## Contributing
