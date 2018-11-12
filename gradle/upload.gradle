@@ -62,8 +62,8 @@ uploadArchives {
                     }
                     developer {
                         id "fwdekker"
-                        name "Felix W. Dekker"
-                        email "felix@cafejojo.org"
+                        name "F.W. Dekker"
+                        email "f@cafejojo.org"
                     }
                 }
             }
