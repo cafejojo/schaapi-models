@@ -26,8 +26,9 @@ allprojects {
     // Static analysis
     apply plugin: "com.diffplug.gradle.spotless"
     apply plugin: "jacoco"
-    
+
     // Publishing
+    apply plugin: "maven"
     apply plugin: "maven-publish"
     apply plugin: "signing"
 
@@ -102,27 +103,28 @@ allprojects {
             xml.enabled = true
         }
     }
-    
-    
+
+
     /// Publishing
-    task sourcesJar(type: Jar) {
-        from sourceSets["main"].allSource
-        classifier = "sources"
+    apply from: "$rootDir/gradle/sign.gradle"
+    apply from: "$rootDir/gradle/upload.gradle"
+
+    task javadocJar(type: Jar) {
+        classifier = "javadoc"
+        from javadoc
     }
 
-    // Publishing
-    apply from: "$rootDir/gradle/publish.gradle"
-    
-    publishing {
-        publications {
-            javaLibrary(MavenPublication) {
-                from components.java
-            }
-        }
+    task sourcesJar(type: Jar) {
+        classifier = "sources"
+        from sourceSets["main"].allSource
+    }
+
+    artifacts {
+        archives javadocJar, sourcesJar
     }
 
     signing {
-        sign publishing.publications.javaLibrary
+        sign configurations.archives
     }
 }
 

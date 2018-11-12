@@ -1,0 +1,72 @@
+// Adapted from https://central.sonatype.org/pages/gradle.html
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+
+            // Where to upload to
+            //repository(url: mavenLocal().url)
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(
+                    userName: rootProject.findProperty("ossrhUsername"),
+                    password: rootProject.findProperty("ossrhPassword")
+                )
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(
+                    userName: rootProject.findProperty("ossrhUsername"),
+                    password: rootProject.findProperty("ossrhPassword")
+                )
+            }
+
+
+            // Additional POM information
+            pom.project {
+                name project.name
+                packaging "jar"
+
+                description "Models and interfaces used in the Schaapi pipelines."
+                url "https://github.com/cafejojo/schaapi-models"
+
+                scm {
+                    connection "scm:git:https://github.com/cafejojo/schaapi-models"
+                    developerConnection "scm:git:https://github.com/cafejojo/schaapi-models"
+                    url "https://github.com/cafejojo/schaapi-models"
+                }
+
+                licenses {
+                    license {
+                        name "MIT License"
+                        url "https://github.com/cafejojo/schaapi-models/blob/master/LICENSE"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id "gandreadis"
+                        name "Georgios Andreadis"
+                        email "georgios@cafejojo.org"
+                    }
+                    developer {
+                        id "casperboone"
+                        name "Casper C. Boone"
+                        email "casper@cafejojo.org"
+                    }
+                    developer {
+                        id "jsabrahams"
+                        name "Joël Abrahams"
+                        email "joël@cafejojo.org"
+                    }
+                    developer {
+                        id "fwdekker"
+                        name "Felix W. Dekker"
+                        email "felix@cafejojo.org"
+                    }
+                }
+            }
+        }
+    }
+}
